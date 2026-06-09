@@ -29,7 +29,6 @@ EMPTY_BORDER = "#45475A"
 TEXT_COLOR = "#CDD6F4"
 ACCENT_GREEN = "#A6E3A1"
 ACCENT_BLUE = "#89B4FA"
-TUBES_PER_ROW = 4
 
 
 def main(page: ft.Page):
@@ -43,6 +42,7 @@ def main(page: ft.Page):
     # State
     state = [[] for _ in range(5)]
     capacity = 8
+    tubes_per_row = 4
     solution_moves = []
     current_step = 0
     initial_state = None
@@ -57,6 +57,7 @@ def main(page: ft.Page):
     reset_btn = ft.Button("⟲", icon=ft.icons.Icons.REPLAY, on_click=lambda e: step_reset())
     solve_btn = ft.Button("✅ Solve", icon=ft.icons.Icons.PLAY_ARROW, on_click=lambda e: do_solve(), bgcolor="#43A047", color="white")
     capacity_dropdown = ft.Dropdown(label="Capacity", width=120, value="8", options=[ft.dropdown.Option(key=str(i), text=str(i)) for i in range(1, 13)], on_select=lambda e: set_capacity())
+    tpr_dropdown = ft.Dropdown(label="Per row", width=100, value="4", options=[ft.dropdown.Option(key=str(i), text=str(i)) for i in range(1, 11)], on_select=lambda e: set_tubes_per_row())
     tube_count_input = ft.TextField(label="Tubes", width=80, value="5", text_align=ft.TextAlign.CENTER, keyboard_type=ft.KeyboardType.NUMBER)
     apply_tubes_btn = ft.Button("✓", width=40, on_click=lambda e: set_tube_count())
     color_dropdown = ft.Dropdown(label="Color", width=200, value="orange", options=[ft.dropdown.Option(key=c, text=f"{COLOR_EMOJI[c]} {c}") for c in COLOR_NAMES])
@@ -69,13 +70,17 @@ def main(page: ft.Page):
     def set_capacity():
         nonlocal capacity, state
         capacity = int(capacity_dropdown.value)
-        # Trim any tubes that exceed capacity
         for i in range(len(state)):
             if len(state[i]) > capacity:
                 state[i] = state[i][:capacity]
         render_tubes()
         update_status()
         sync_state_text()
+
+    def set_tubes_per_row():
+        nonlocal tubes_per_row
+        tubes_per_row = int(tpr_dropdown.value)
+        render_tubes()
 
     def set_tube_count():
         nonlocal state
@@ -133,8 +138,8 @@ def main(page: ft.Page):
 
     def render_tubes():
         tubes_container.controls.clear()
-        for row_start in range(0, len(state), TUBES_PER_ROW):
-            row_end = min(row_start + TUBES_PER_ROW, len(state))
+        for row_start in range(0, len(state), tubes_per_row):
+            row_end = min(row_start + tubes_per_row, len(state))
             row_controls = []
             for tube_idx in range(row_start, row_end):
                 tube = state[tube_idx]
@@ -329,6 +334,7 @@ def main(page: ft.Page):
             ft.Divider(color="#45475A"),
             ft.Row([
                 capacity_dropdown,
+                tpr_dropdown,
                 tube_count_input,
                 apply_tubes_btn,
             ], spacing=8),
