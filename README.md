@@ -11,25 +11,24 @@ python gui.py
 
 ## Usage
 
-1. **Enter state** — paste JSON arrays into the text field and click "Apply State", e.g.:
+1. **Get state** — click "Copy AI Prompt", take a screenshot of your game, paste both into an AI chat. It returns a JSON array. Or type it manually:
    ```json
    [["orange","blue","green"], ["red","yellow"], []]
    ```
-   Or use the color dropdown + click slots to edit visually.
 
-2. **Set capacity** — max cats per tube (default 8).
+2. **Apply** — paste the JSON into the text field, click "Apply State".
 
-3. **Set tubes** — number of tubes (including empty ones).
+3. **Set capacity** — max cats per tube (default 8).
 
-4. **Solve** — click "Solve". Solution appears in the box below. Use arrow buttons to step through.
+4. **Set tubes** — number of tubes (including empty ones).
 
-5. **Copy solution** — click "Copy" to get moves like:
+5. **Solve** — click "Solve". Use arrow buttons to step through the solution.
+
+6. **Copy solution** — click "Copy" to get moves like:
    ```
    Step 1: 0 -> 9
    Step 2: 0 -> 3
    ```
-
-6. **Copy AI Prompt** — copies a prompt to paste with a screenshot into an AI to extract tube state.
 
 ## How it works
 
