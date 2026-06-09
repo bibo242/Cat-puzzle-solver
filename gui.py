@@ -43,7 +43,7 @@ def main(page: ft.Page):
     # State
     state = [[] for _ in range(5)]
     capacity = 8
-    tubes_per_row = 4
+    tubes_per_row = 6
     solution_moves = []
     current_step = 0
     initial_state = None
@@ -66,7 +66,7 @@ def main(page: ft.Page):
     reset_btn = ft.Button("⟲", icon=ft.icons.Icons.REPLAY, on_click=lambda e: step_reset())
     solve_btn = ft.Button("✅ Solve", icon=ft.icons.Icons.PLAY_ARROW, on_click=lambda e: do_solve(), bgcolor="#43A047", color="white")
     capacity_dropdown = ft.Dropdown(label="Capacity", width=120, value="8", options=[ft.dropdown.Option(key=str(i), text=str(i)) for i in range(1, 13)], on_select=lambda e: set_capacity())
-    tpr_dropdown = ft.Dropdown(label="Per row", width=100, value="4", options=[ft.dropdown.Option(key=str(i), text=str(i)) for i in range(1, 11)], on_select=lambda e: set_tubes_per_row())
+    tpr_dropdown = ft.Dropdown(label="Per row", width=100, value="6", options=[ft.dropdown.Option(key=str(i), text=str(i)) for i in range(1, 11)], on_select=lambda e: set_tubes_per_row())
     tube_count_input = ft.TextField(label="Tubes", width=80, value="5", text_align=ft.TextAlign.CENTER, keyboard_type=ft.KeyboardType.NUMBER)
     apply_tubes_btn = ft.Button("✓", width=40, on_click=lambda e: set_tube_count())
     color_dropdown = ft.Dropdown(label="Color", width=200, value="orange", options=[ft.dropdown.Option(key=c, text=f"{COLOR_EMOJI[c]} {c}") for c in COLOR_NAMES])
