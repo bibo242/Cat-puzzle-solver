@@ -116,6 +116,31 @@ def main(page: ft.Page):
             status_label.value = f"❌ Parse error: {ex}"
             status_label.update()
 
+    def copy_prompt():
+        prompt = (
+            "Analyze this image and generate a JSON array describing the colors of the cats "
+            "in the active tubes. Follow these specific formatting rules:\n\n"
+            "1.  Structure: The output must be a JSON array of arrays, where each child array "
+            "represents one active tube. Do not include locked tubes in the output.\n"
+            "2.  Tube Order: Scan the unlocked/active tubes from left to right, top to bottom "
+            "(processing the top row first, then the bottom row).\n"
+            "3.  Cat Order & Capacity: For the cats inside each active tube, list their "
+            "colors from bottom to top (starting from the bottom of the tube up to the "
+            "top). The maximum capacity for cats inside each tube is 8.\n"
+            "4.  Color Naming: Use simple, lowercase color terms such as \"green\", \"orange\", "
+            "\"maroon\", \"red\", \"pink\", \"gray\", \"black\", \"purple\", \"yellow\", and \"brown\".\n"
+            "5.  Color Distribution Constraint: There must be exactly 8 cats of each color "
+            "across all active tubes in the entire image. Use this mathematical "
+            "constraint to double-check and ensure your color classifications are "
+            "perfectly balanced (i.e., every color you use must sum to exactly 8 across "
+            "the entire JSON array).\n"
+            "6.  Empty Tubes: If an active tube is empty, represent it as an empty array [].\n\n"
+            "Provide only the final JSON array."
+        )
+        page.set_clipboard(prompt)
+        status_label.value = "✅ Prompt copied to clipboard"
+        status_label.update()
+
     def on_slot_click(e):
         tube_idx, slot_idx = e.control.data
         tube = state[tube_idx]
@@ -343,7 +368,10 @@ def main(page: ft.Page):
                 color_dropdown,
             ]),
             state_text,
-            ft.Button("📋 Apply State", icon=ft.icons.Icons.CHECK, on_click=lambda e: apply_state_text(), bgcolor="#45475A", color="white"),
+            ft.Row([
+                ft.Button("📋 Apply State", icon=ft.icons.Icons.CHECK, on_click=lambda e: apply_state_text(), bgcolor="#45475A", color="white"),
+                ft.Button("📋 Copy AI Prompt", icon=ft.icons.Icons.COPY, on_click=lambda e: copy_prompt(), bgcolor="#45475A", color="white"),
+            ], spacing=8),
             ft.Divider(color="#45475A"),
             solve_btn,
             ft.Button("🗑️ Clear All", icon=ft.icons.Icons.DELETE, on_click=lambda e: clear_all()),
