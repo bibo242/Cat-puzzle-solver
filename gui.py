@@ -350,7 +350,7 @@ def main(page: ft.Page):
             ft.Divider(color="#45475A"),
             status_label,
         ],
-        spacing=8, width=260,
+        spacing=8, width=360,
     )
 
     right = ft.Column(
