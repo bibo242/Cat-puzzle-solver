@@ -325,7 +325,7 @@ def main(page: ft.Page):
             return
         lines = []
         for i, (s, d, c, col) in enumerate(solution_moves, 1):
-            lines.append(f"{s} -> {d}")
+            lines.append(f"Step {i}: {s} -> {d}")
         text = "\n".join(lines)
         try:
             proc = subprocess.Popen(["xclip", "-selection", "clipboard"], stdin=subprocess.PIPE)
