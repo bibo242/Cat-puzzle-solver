@@ -53,6 +53,14 @@ def main(page: ft.Page):
     status_label = ft.Text("Ready", size=13, color=TEXT_COLOR)
     step_label = ft.Text("No solution", size=15, weight=ft.FontWeight.BOLD, color=TEXT_COLOR)
     solution_md = ft.Text("", size=20, weight=ft.FontWeight.BOLD, color=TEXT_COLOR, text_align=ft.TextAlign.CENTER)
+    solution_md_container = ft.Container(
+        content=solution_md,
+        padding=ft.padding.Padding.all(12),
+        bgcolor="#181825", border_radius=12,
+        border=ft.border.Border.all(width=1, color="#313244"),
+        expand=True,
+        alignment=ft.alignment.Alignment(0, 0),
+    )
     back_btn = ft.Button("⏮", icon=ft.icons.Icons.ARROW_BACK, on_click=lambda e: step_back(), disabled=True)
     forward_btn = ft.Button("⏭", icon=ft.icons.Icons.ARROW_FORWARD, on_click=lambda e: step_fwd(), disabled=True)
     reset_btn = ft.Button("⟲", icon=ft.icons.Icons.REPLAY, on_click=lambda e: step_reset())
@@ -411,13 +419,7 @@ def main(page: ft.Page):
                 controls=[back_btn, step_label, forward_btn, reset_btn, ft.Button("📋 Copy", on_click=lambda e: copy_solution(), bgcolor="#45475A", color="white")],
                 alignment=ft.MainAxisAlignment.CENTER, spacing=12,
             ),
-            ft.Container(
-                content=solution_md,
-                padding=ft.padding.Padding.all(12),
-                bgcolor="#181825", border_radius=12,
-                border=ft.border.Border.all(width=1, color="#313244"),
-                expand=True,
-            ),
+            solution_md_container,
         ],
         spacing=12, expand=True,
     )
