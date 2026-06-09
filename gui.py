@@ -52,7 +52,7 @@ def main(page: ft.Page):
     tubes_container = ft.Column(spacing=12, horizontal_alignment=ft.CrossAxisAlignment.CENTER)
     status_label = ft.Text("Ready", size=13, color=TEXT_COLOR)
     step_label = ft.Text("No solution", size=15, weight=ft.FontWeight.BOLD, color=TEXT_COLOR)
-    solution_md = ft.Markdown("", extension_set=ft.MarkdownExtensionSet.GITHUB_FLAVORED, selectable=True)
+    solution_md = ft.Text("", size=20, weight=ft.FontWeight.BOLD, color=TEXT_COLOR, text_align=ft.TextAlign.CENTER)
     back_btn = ft.Button("⏮", icon=ft.icons.Icons.ARROW_BACK, on_click=lambda e: step_back(), disabled=True)
     forward_btn = ft.Button("⏭", icon=ft.icons.Icons.ARROW_FORWARD, on_click=lambda e: step_fwd(), disabled=True)
     reset_btn = ft.Button("⟲", icon=ft.icons.Icons.REPLAY, on_click=lambda e: step_reset())
@@ -335,21 +335,21 @@ def main(page: ft.Page):
             forward_btn.disabled = True
             solution_md.value = ""
         elif current_step == 0:
-            step_label.value = "Initial state"
+            step_label.value = f"0 / {len(solution_moves)}"
             back_btn.disabled = True
             forward_btn.disabled = False
-            _build_md()
+            solution_md.value = "Initial state"
         elif current_step == len(solution_moves):
-            step_label.value = f"✅ Solved ({len(solution_moves)} moves)"
+            step_label.value = f"{len(solution_moves)} / {len(solution_moves)}"
             back_btn.disabled = False
             forward_btn.disabled = True
-            _build_md()
+            solution_md.value = f"✅ Solved!"
         else:
-            src, dst, count, color = solution_moves[current_step]
-            step_label.value = f"{current_step}- Move {count} {color} from tube {src} to tube {dst}"
+            src, dst, count, color = solution_moves[current_step - 1]
+            step_label.value = f"{current_step} / {len(solution_moves)}"
+            solution_md.value = f"Move {count} {color}\ntube {src} → tube {dst}"
             back_btn.disabled = False
             forward_btn.disabled = False
-            _build_md()
 
         step_label.update()
         back_btn.update()
@@ -357,12 +357,7 @@ def main(page: ft.Page):
         solution_md.update()
 
     def _build_md():
-        lines = [f"**Solution ({len(solution_moves)} moves):**\n"]
-        for i, (s, d, c, col) in enumerate(solution_moves, 1):
-            tag = COLOR_EMOJI.get(col.lower(), "")
-            marker = "◀" if i == current_step else "  "
-            lines.append(f"{marker} {i}- Move {c} {col} from tube {s} to tube {d}")
-        solution_md.value = "\n".join(lines)
+        pass
 
     def clear_all():
         nonlocal state, solution_moves, current_step, initial_state
