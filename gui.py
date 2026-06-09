@@ -9,12 +9,14 @@ COLOR_HEX = {
     "green": "#32CD32", "blue": "#4169E1", "purple": "#9B59B6",
     "red": "#E74C3C", "brown": "#8B4513", "white": "#ECF0F1",
     "black": "#2C3E50", "gray": "#95A5A6", "cyan": "#00CED1", "magenta": "#FF00FF",
+    "empty": "#1E1E2E",
 }
 
 COLOR_EMOJI = {
     "orange": "🟠", "pink": "🩷", "yellow": "🟡", "green": "🟢",
     "blue": "🔵", "purple": "🟣", "red": "🔴", "brown": "🟤",
     "white": "⚪", "black": "⚫", "gray": "🩶", "cyan": "🔷", "magenta": "💜",
+    "empty": "⬜",
 }
 
 COLOR_NAMES = list(COLOR_HEX.keys())
@@ -114,7 +116,10 @@ def main(page: ft.Page):
         tube = state[tube_idx]
         selected_color = color_dropdown.value
 
-        if slot_idx < len(tube):
+        if selected_color == "empty":
+            if slot_idx < len(tube):
+                tube.pop(slot_idx)
+        elif slot_idx < len(tube):
             if tube[slot_idx] == selected_color:
                 tube.pop(slot_idx)
             else:
