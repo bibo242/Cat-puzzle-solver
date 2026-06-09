@@ -1,24 +1,42 @@
 import heapq
 
 def is_solved(state):
+    seen_colors = set()
     for col in state:
         if len(col) == 0:
             continue
         if len(set(col)) != 1:
             return False
+        color = col[0]
+        if color in seen_colors:
+            return False
+        seen_colors.add(color)
     return True
 
 def heuristic(state):
-    h = 0
-    for col in state:
-        if len(col) <= 1:
+    color_tubes = {}
+    for i, col in enumerate(state):
+        if len(col) == 0:
             continue
-        blocks = 1
-        for i in range(len(col) - 2, -1, -1):
-            if col[i] != col[i + 1]:
-                blocks += 1
-        if blocks > 1:
-            h += blocks - 1
+        for color in set(col):
+            if color not in color_tubes:
+                color_tubes[color] = []
+            color_tubes[color].append(i)
+
+    h = 0
+    for color, tubes in color_tubes.items():
+        if len(tubes) > 1:
+            chunks = 0
+            for t in tubes:
+                col = state[t]
+                c = 0
+                prev = None
+                for item in reversed(col):
+                    if item != prev:
+                        c += 1
+                        prev = item
+                chunks += c
+            h += chunks - 1
     return h
 
 def get_valid_moves(state, capacity):
