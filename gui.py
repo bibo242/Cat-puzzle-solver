@@ -310,6 +310,24 @@ def main(page: ft.Page):
             render_tubes()
             sync_state_text()
 
+    def copy_solution():
+        if not solution_moves:
+            status_label.value = "⚠️ No solution to copy"
+            status_label.update()
+            return
+        lines = []
+        for i, (s, d, c, col) in enumerate(solution_moves, 1):
+            lines.append(f"{s} -> {d}")
+        text = "\n".join(lines)
+        try:
+            proc = subprocess.Popen(["xclip", "-selection", "clipboard"], stdin=subprocess.PIPE)
+            proc.communicate(input=text.encode())
+            status_label.value = "✅ Solution copied to clipboard"
+        except FileNotFoundError:
+            state_text.value = text
+            status_label.value = "⚠️ xclip not found, solution shown in text field"
+        status_label.update()
+
     def update_step_ui():
         if not solution_moves:
             step_label.value = "No solution"
@@ -395,7 +413,7 @@ def main(page: ft.Page):
                 border=ft.border.Border.all(width=1, color="#313244"),
             ),
             ft.Row(
-                controls=[back_btn, step_label, forward_btn, reset_btn],
+                controls=[back_btn, step_label, forward_btn, reset_btn, ft.Button("📋 Copy", on_click=lambda e: copy_solution(), bgcolor="#45475A", color="white")],
                 alignment=ft.MainAxisAlignment.CENTER, spacing=12,
             ),
             ft.Container(
