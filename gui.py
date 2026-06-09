@@ -328,8 +328,7 @@ def main(page: ft.Page):
             _build_md()
         else:
             src, dst, count, color = solution_moves[current_step]
-            emoji = COLOR_EMOJI.get(color.lower(), "")
-            step_label.value = f"Step {current_step}/{len(solution_moves)}: {count} {emoji} {color} {src}→{dst}"
+            step_label.value = f"{current_step}- Move {count} {color} from tube {src} to tube {dst}"
             back_btn.disabled = False
             forward_btn.disabled = False
             _build_md()
@@ -344,7 +343,7 @@ def main(page: ft.Page):
         for i, (s, d, c, col) in enumerate(solution_moves, 1):
             tag = COLOR_EMOJI.get(col.lower(), "")
             marker = "◀" if i == current_step else "  "
-            lines.append(f"{marker} {i:02d}: {c} {tag} {col} {s}→{d}")
+            lines.append(f"{marker} {i}- Move {c} {col} from tube {s} to tube {d}")
         solution_md.value = "\n".join(lines)
 
     def clear_all():
