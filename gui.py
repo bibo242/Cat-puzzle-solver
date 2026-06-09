@@ -1,5 +1,6 @@
 import copy
 import json
+import subprocess
 import threading
 import flet as ft
 from solver import solve
@@ -137,8 +138,13 @@ def main(page: ft.Page):
             "6.  Empty Tubes: If an active tube is empty, represent it as an empty array [].\n\n"
             "Provide only the final JSON array."
         )
-        page.set_clipboard(prompt)
-        status_label.value = "✅ Prompt copied to clipboard"
+        try:
+            proc = subprocess.Popen(["xclip", "-selection", "clipboard"], stdin=subprocess.PIPE)
+            proc.communicate(input=prompt.encode())
+            status_label.value = "✅ Prompt copied to clipboard"
+        except FileNotFoundError:
+            state_text.value = prompt
+            status_label.value = "⚠️ xclip not found, prompt shown in text field"
         status_label.update()
 
     def on_slot_click(e):
